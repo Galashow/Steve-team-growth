@@ -1,4 +1,5 @@
 import bcrypt
+from a2wsgi import ASGIMiddleware
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlmodel import Field, Session, SQLModel, create_engine, select
@@ -607,3 +608,5 @@ if os.path.exists("dist"):
     app.mount("/", StaticFiles(directory="dist", html=True), name="static")
 else:
     print("ВНИМАНИЕ: Папка 'dist' не найдена. Фронтенд не будет работать.")
+# --- АДАПТЕР ДЛЯ PYTHONANYWHERE ---
+wsgi_app = ASGIMiddleware(app)
